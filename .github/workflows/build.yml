@@ -24,23 +24,50 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle 8.5
+        uses: gradle/actions/setup-gradle@v4
         with:
-          api-level: 33
-          ndk-version: r26d
-          build-tools: 33.0.2
+          gradle-version: 8.5
+
+      - name: Debug Java
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          java -version
+          which java
+
+      - name: Debug Gradle
+        run: |
+          gradle --version
+          which gradle
+
+      - name: Accept Android SDK licenses
+        run: |
+          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+
+      - name: Install Android SDK components
+        run: |
+          /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" "build-tools;33.0.2" "platform-tools"
 
       - name: Debug Android SDK
         run: |
           echo "ANDROID_HOME=$ANDROID_HOME"
           ls -la $ANDROID_HOME
 
-      - name: Build Debug APK
-        uses: gradle/gradle-build-action@v2
+      - name: Build Debug APK (with info log)
+        run: |
+          gradle assembleDebug --no-daemon --info > build.log 2>&1 || true
+          cat build.log
+        continue-on-error: true
+
+      - name: Upload build log
+        uses: actions/upload-artifact@v4
         with:
-          gradle-version: 8.5
-          arguments: assembleDebug --no-daemon --stacktrace
+          name: build-log
+          path: build.log
+          retention-days: 7
+
+      - name: Build Debug APK (actual)
+        run: gradle assembleDebug --no-daemon --stacktrace
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
