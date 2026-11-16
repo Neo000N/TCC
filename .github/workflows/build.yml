@@ -44,7 +44,10 @@ jobs:
           ls -la ./gradlew
           ls -la gradle/wrapper/gradle-wrapper.jar
 
-      - name: Build Debug APK (no stacktrace)
+      - name: Warm-up Gradle (download dependencies)
+        run: ./gradlew help --no-daemon
+
+      - name: Build Debug APK
         run: ./gradlew assembleDebug --no-daemon
 
       - name: Check APK exists
