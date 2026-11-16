@@ -31,9 +31,12 @@ jobs:
       
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-      
+
+      - name: Verify Gradle wrapper
+        run: ./gradlew --version
+
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
       
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
