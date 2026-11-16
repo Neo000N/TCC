@@ -39,9 +39,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Verify Gradle wrapper
-        run: ./gradlew --version --no-daemon
-
       - name: Build Debug APK
         run: |
           if command -v gradle &> /dev/null; then
