@@ -24,13 +24,18 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Setup Gradle 8.6
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.6
+
       - name: Debug Java
         run: |
           echo "JAVA_HOME=$JAVA_HOME"
           java -version
           which java
 
-      - name: Check system Gradle
+      - name: Debug Gradle
         run: |
           gradle --version
           which gradle
@@ -43,7 +48,7 @@ jobs:
         run: |
           /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
-      - name: Build Debug APK (system Gradle)
+      - name: Build Debug APK
         run: gradle assembleDebug --no-daemon --stacktrace
 
       - name: Upload Debug APK
