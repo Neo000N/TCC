@@ -42,11 +42,15 @@ jobs:
         run: |
           chmod +x ./gradlew
           ls -la ./gradlew
-          head -20 ./gradlew
-          ./gradlew --version || echo "gradlew --version failed with exit code $?"
+          echo "=== Running gradlew --version ==="
+          ./gradlew --version
+          echo "=== gradlew --version exit code: $? ==="
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+      - name: Debug gradlew assembleDebug
+        run: |
+          echo "=== Running gradlew assembleDebug ==="
+          ./gradlew assembleDebug --no-daemon --stacktrace
+          echo "=== gradlew assembleDebug exit code: $? ==="
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
