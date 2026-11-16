@@ -44,28 +44,12 @@ jobs:
           ls -la ./gradlew
           ls -la gradle/wrapper/gradle-wrapper.jar
 
-      - name: Test gradlew compileDebugKotlin
-        run: |
-          ./gradlew compileDebugKotlin --no-daemon --stacktrace
-        continue-on-error: true
+      - name: Build Debug APK (no stacktrace)
+        run: ./gradlew assembleDebug --no-daemon
 
-      - name: Test gradlew compileDebugJavaWithJavac
+      - name: Check APK exists
         run: |
-          ./gradlew compileDebugJavaWithJavac --no-daemon --stacktrace
-        continue-on-error: true
-
-      - name: Test gradlew processDebugResources
-        run: |
-          ./gradlew processDebugResources --no-daemon --stacktrace
-        continue-on-error: true
-
-      - name: Test gradlew assembleDebug (no stacktrace)
-        run: |
-          ./gradlew assembleDebug --no-daemon
-        continue-on-error: true
-
-      - name: Build Debug APK (wrapper)
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+          ls -la app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
