@@ -28,12 +28,19 @@ jobs:
       - name: Accept Android SDK licenses
         run: |
           yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
-      
+
+      - name: Check available Gradle
+        run: |
+          which gradle
+          gradle --version || echo "Gradle not in PATH"
+          ls -la /opt/gradle* 2>/dev/null || echo "No /opt/gradle"
+          ls -la /usr/lib/gradle* 2>/dev/null || echo "No /usr/lib/gradle"
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
       - name: Verify Gradle wrapper
-        run: ./gradlew --version
+        run: ./gradlew --version --no-daemon
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --no-daemon --stacktrace
