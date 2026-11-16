@@ -12,9 +12,8 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = project.versionName.toString()
+        versionName = "1.0.0-debug"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "VERSION_NAME", "\"${project.versionName}\"")
     }
 
     buildTypes {
