@@ -24,6 +24,12 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Debug Java
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          java -version
+          which java
+
       - name: Accept Android SDK licenses
         run: |
           yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
@@ -32,8 +38,12 @@ jobs:
         run: |
           /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Debug gradlew
+        run: |
+          chmod +x ./gradlew
+          ls -la ./gradlew
+          head -20 ./gradlew
+          ./gradlew --version || echo "gradlew --version failed with exit code $?"
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --no-daemon --stacktrace
