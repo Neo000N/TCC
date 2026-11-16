@@ -30,6 +30,11 @@ jobs:
           java -version
           which java
 
+      - name: Check system Gradle
+        run: |
+          gradle --version
+          which gradle
+
       - name: Accept Android SDK licenses
         run: |
           yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
@@ -38,53 +43,8 @@ jobs:
         run: |
           /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
-      - name: Debug gradlew script
-        continue-on-error: true
-        run: |
-          chmod +x ./gradlew
-          ls -la ./gradlew
-          ls -la gradle/wrapper/gradle-wrapper.jar
-          echo "=== Running gradlew --version ==="
-          ./gradlew --version
-          echo "=== gradlew --version exit code: $? ==="
-
-      - name: Debug java direct
-        continue-on-error: true
-        run: |
-          echo "=== Running java -cp gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain --version ==="
-          java -cp gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain --version
-          echo "=== java direct exit code: $? ==="
-
-      - name: Debug gradlew with bash -x
-        continue-on-error: true
-        run: |
-          echo "=== Running bash -x gradlew --version ==="
-          bash -x ./gradlew --version
-          echo "=== bash -x gradlew exit code: $? ==="
-
-      - name: Debug gradlew assembleDebug (no flags)
-        continue-on-error: true
-        run: |
-          echo "=== Running gradlew assembleDebug ==="
-          ./gradlew assembleDebug
-          echo "=== gradlew assembleDebug exit code: $? ==="
-
-      - name: Debug gradlew assembleDebug (--no-daemon)
-        continue-on-error: true
-        run: |
-          echo "=== Running gradlew assembleDebug --no-daemon ==="
-          ./gradlew assembleDebug --no-daemon
-          echo "=== gradlew assembleDebug --no-daemon exit code: $? ==="
-
-      - name: Debug gradlew assembleDebug (--stacktrace)
-        continue-on-error: true
-        run: |
-          echo "=== Running gradlew assembleDebug --stacktrace ==="
-          ./gradlew assembleDebug --stacktrace
-          echo "=== gradlew assembleDebug --stacktrace exit code: $? ==="
-
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+      - name: Build Debug APK (system Gradle)
+        run: gradle assembleDebug --no-daemon --stacktrace
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
