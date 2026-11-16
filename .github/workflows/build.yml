@@ -24,12 +24,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Debug Java
-        run: |
-          echo "JAVA_HOME=$JAVA_HOME"
-          java -version
-          which java
-
       - name: Accept Android SDK licenses
         run: |
           yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
@@ -38,26 +32,16 @@ jobs:
         run: |
           /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
-      - name: Debug gradlew
-        run: |
-          chmod +x ./gradlew
-          ls -la ./gradlew
-          ls -la gradle/wrapper/gradle-wrapper.jar
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
-      - name: Warm-up 1: help
-        continue-on-error: true
-        run: ./gradlew help --no-daemon
-
-      - name: Warm-up 2: compileDebugKotlin
-        continue-on-error: true
+      - name: Warm-up compileDebugKotlin
         run: ./gradlew compileDebugKotlin --no-daemon
 
-      - name: Warm-up 3: compileDebugJavaWithJavac
-        continue-on-error: true
+      - name: Warm-up compileDebugJavaWithJavac
         run: ./gradlew compileDebugJavaWithJavac --no-daemon
 
-      - name: Warm-up 4: processDebugResources
-        continue-on-error: true
+      - name: Warm-up processDebugResources
         run: ./gradlew processDebugResources --no-daemon
 
       - name: Build Debug APK
