@@ -35,13 +35,25 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Warm-up compileDebugKotlin
+      - name: Warm-up 1: help
+        run: ./gradlew help --no-daemon
+
+      - name: Warm-up 2: projects
+        run: ./gradlew projects --no-daemon
+
+      - name: Warm-up 3: tasks
+        run: ./gradlew tasks --no-daemon
+
+      - name: Warm-up 4: dry-run
+        run: ./gradlew assembleDebug --no-daemon --dry-run
+
+      - name: Warm-up 5: compileDebugKotlin
         run: ./gradlew compileDebugKotlin --no-daemon
 
-      - name: Warm-up compileDebugJavaWithJavac
+      - name: Warm-up 6: compileDebugJavaWithJavac
         run: ./gradlew compileDebugJavaWithJavac --no-daemon
 
-      - name: Warm-up processDebugResources
+      - name: Warm-up 7: processDebugResources
         run: ./gradlew processDebugResources --no-daemon
 
       - name: Build Debug APK
