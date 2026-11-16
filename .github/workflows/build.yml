@@ -62,12 +62,8 @@ jobs:
           bash -x ./gradlew --version
           echo "=== bash -x gradlew exit code: $? ==="
 
-      - name: Debug gradlew assembleDebug
-        continue-on-error: true
-        run: |
-          echo "=== Running gradlew assembleDebug ==="
-          ./gradlew assembleDebug --no-daemon --stacktrace
-          echo "=== gradlew assembleDebug exit code: $? ==="
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
