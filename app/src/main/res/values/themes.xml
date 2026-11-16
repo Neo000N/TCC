@@ -1,7 +1,7 @@
 <resources>
-    <style name="Theme.TCC" parent="android:Theme.Material3.Light.NoActionBar">
-        <item name="android:colorPrimary">@android:color/holo_blue_dark</item>
-        <item name="android:colorPrimaryVariant">@android:color/holo_blue_light</item>
-        <item name="android:colorOnPrimary">@android:color/white</item>
+    <style name="Theme.TCC" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@android:color/holo_blue_dark</item>
+        <item name="colorPrimaryVariant">@android:color/holo_blue_light</item>
+        <item name="colorOnPrimary">@android:color/white</item>
     </style>
 </resources>

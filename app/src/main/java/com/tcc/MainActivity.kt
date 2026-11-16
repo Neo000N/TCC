@@ -1,43 +1,17 @@
 package com.tcc
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.material3.Text
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import com.tcc.BuildConfig
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { TCCScreen() }
-    }
-}
-
-@Composable
-fun TCCScreen() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color.White
-    ) {
-        androidx.compose.foundation.layout.Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "TCC v0.1 — PoC H7 OK\nBuild: ${BuildConfig.VERSION_NAME}",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                textAlign = androidx.compose.ui.text.TextAlign.Center
-            )
-        }
+        val textView = TextView(this)
+        textView.text = "TCC v0.1 — PoC H7 OK\nBuild: ${BuildConfig.VERSION_NAME}"
+        textView.textSize = 24f
+        textView.gravity = android.view.Gravity.CENTER
+        setContentView(textView)
     }
 }
