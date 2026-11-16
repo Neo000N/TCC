@@ -42,18 +42,26 @@ jobs:
         run: |
           chmod +x ./gradlew
           ls -la ./gradlew
-          head -30 ./gradlew
-          bash -n ./gradlew && echo "Syntax OK"
-          file gradle/wrapper/gradle-wrapper.jar
+          ls -la gradle/wrapper/gradle-wrapper.jar
 
-      - name: Test gradlew --version
+      - name: Test gradlew help
         run: |
-          ./gradlew --version
+          ./gradlew help --no-daemon
         continue-on-error: true
 
-      - name: Test java direct
+      - name: Test gradlew projects
         run: |
-          java -cp gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain --version
+          ./gradlew projects --no-daemon
+        continue-on-error: true
+
+      - name: Test gradlew tasks
+        run: |
+          ./gradlew tasks --no-daemon
+        continue-on-error: true
+
+      - name: Test gradlew assembleDebug --dry-run
+        run: |
+          ./gradlew assembleDebug --no-daemon --dry-run
         continue-on-error: true
 
       - name: Build Debug APK (wrapper)
