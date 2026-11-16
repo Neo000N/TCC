@@ -62,6 +62,27 @@ jobs:
           bash -x ./gradlew --version
           echo "=== bash -x gradlew exit code: $? ==="
 
+      - name: Debug gradlew assembleDebug (no flags)
+        continue-on-error: true
+        run: |
+          echo "=== Running gradlew assembleDebug ==="
+          ./gradlew assembleDebug
+          echo "=== gradlew assembleDebug exit code: $? ==="
+
+      - name: Debug gradlew assembleDebug (--no-daemon)
+        continue-on-error: true
+        run: |
+          echo "=== Running gradlew assembleDebug --no-daemon ==="
+          ./gradlew assembleDebug --no-daemon
+          echo "=== gradlew assembleDebug --no-daemon exit code: $? ==="
+
+      - name: Debug gradlew assembleDebug (--stacktrace)
+        continue-on-error: true
+        run: |
+          echo "=== Running gradlew assembleDebug --stacktrace ==="
+          ./gradlew assembleDebug --stacktrace
+          echo "=== gradlew assembleDebug --stacktrace exit code: $? ==="
+
       - name: Build Debug APK
         run: ./gradlew assembleDebug --no-daemon --stacktrace
 
