@@ -24,10 +24,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Gradle 8.0
+      - name: Setup Gradle 8.5
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: 8.0
+          gradle-version: 8.5
 
       - name: Debug Java
         run: |
@@ -47,6 +47,12 @@ jobs:
       - name: Install Android SDK components
         run: |
           /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-33" "build-tools;33.0.2" "platform-tools"
+
+      - name: Debug Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls -la $ANDROID_HOME
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --list | head -20
 
       - name: Build Debug APK
         run: gradle assembleDebug --no-daemon --stacktrace
