@@ -39,6 +39,7 @@ jobs:
           /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
       - name: Debug gradlew script
+        continue-on-error: true
         run: |
           chmod +x ./gradlew
           ls -la ./gradlew
@@ -48,12 +49,21 @@ jobs:
           echo "=== gradlew --version exit code: $? ==="
 
       - name: Debug java direct
+        continue-on-error: true
         run: |
           echo "=== Running java -cp gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain --version ==="
           java -cp gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain --version
           echo "=== java direct exit code: $? ==="
 
+      - name: Debug gradlew with bash -x
+        continue-on-error: true
+        run: |
+          echo "=== Running bash -x gradlew --version ==="
+          bash -x ./gradlew --version
+          echo "=== bash -x gradlew exit code: $? ==="
+
       - name: Debug gradlew assembleDebug
+        continue-on-error: true
         run: |
           echo "=== Running gradlew assembleDebug ==="
           ./gradlew assembleDebug --no-daemon --stacktrace
