@@ -24,6 +24,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Debug Java
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          java -version
+          which java
+
       - name: Accept Android SDK licenses
         run: |
           yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
@@ -32,8 +38,23 @@ jobs:
         run: |
           /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Debug gradlew
+        run: |
+          chmod +x ./gradlew
+          ls -la ./gradlew
+          head -30 ./gradlew
+          bash -n ./gradlew && echo "Syntax OK"
+          file gradle/wrapper/gradle-wrapper.jar
+
+      - name: Test gradlew --version
+        run: |
+          ./gradlew --version
+        continue-on-error: true
+
+      - name: Test java direct
+        run: |
+          java -cp gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain --version
+        continue-on-error: true
 
       - name: Build Debug APK (wrapper)
         run: ./gradlew assembleDebug --no-daemon --stacktrace
