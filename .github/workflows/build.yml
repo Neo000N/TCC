@@ -44,24 +44,24 @@ jobs:
           ls -la ./gradlew
           ls -la gradle/wrapper/gradle-wrapper.jar
 
-      - name: Test gradlew help
+      - name: Test gradlew compileDebugKotlin
         run: |
-          ./gradlew help --no-daemon
+          ./gradlew compileDebugKotlin --no-daemon --stacktrace
         continue-on-error: true
 
-      - name: Test gradlew projects
+      - name: Test gradlew compileDebugJavaWithJavac
         run: |
-          ./gradlew projects --no-daemon
+          ./gradlew compileDebugJavaWithJavac --no-daemon --stacktrace
         continue-on-error: true
 
-      - name: Test gradlew tasks
+      - name: Test gradlew processDebugResources
         run: |
-          ./gradlew tasks --no-daemon
+          ./gradlew processDebugResources --no-daemon --stacktrace
         continue-on-error: true
 
-      - name: Test gradlew assembleDebug --dry-run
+      - name: Test gradlew assembleDebug (no stacktrace)
         run: |
-          ./gradlew assembleDebug --no-daemon --dry-run
+          ./gradlew assembleDebug --no-daemon
         continue-on-error: true
 
       - name: Build Debug APK (wrapper)
