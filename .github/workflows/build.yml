@@ -24,6 +24,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 7.5
+
       - name: Accept Android SDK licenses
         run: |
           yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
@@ -31,9 +36,6 @@ jobs:
       - name: Install Android SDK components
         run: |
           /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --no-daemon --no-build-cache
