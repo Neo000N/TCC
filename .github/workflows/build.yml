@@ -45,6 +45,7 @@ jobs:
           ls -la gradle/wrapper/gradle-wrapper.jar
 
       - name: Warm-up Gradle (download dependencies)
+        continue-on-error: true
         run: ./gradlew help --no-daemon
 
       - name: Build Debug APK
