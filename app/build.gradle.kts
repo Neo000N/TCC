@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.tcc"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.tcc"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = project.versionName.toString()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
