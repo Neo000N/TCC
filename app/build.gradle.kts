@@ -14,6 +14,11 @@ android {
         versionCode = 1
         versionName = "1.0.0-debug"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // NDK configuration for native bridge binary
+        ndk {
+            abiFilters.add("arm64-v8a")
+        }
     }
 
     buildTypes {
@@ -34,6 +39,13 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    // Include jniLibs source set for native libraries
+    sourceSets {
+        main {
+            jniLibs.srcDirs = listOf("src/main/jniLibs")
+        }
     }
 }
 
