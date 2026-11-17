@@ -43,8 +43,8 @@ android {
 
     // Include jniLibs source set for native libraries
     sourceSets {
-        getByName("main") {
-            jniLibs.setSrcDirs(listOf("src/main/jniLibs"))
+        main {
+            jniLibs.srcDirs = listOf("src/main/jniLibs")
         }
     }
 }
