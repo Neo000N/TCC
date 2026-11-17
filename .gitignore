@@ -1,0 +1,19 @@
+# Build outputs
+/build
+/app/build
+/tcc-bridge/target
+/tcc-bridge/Cargo.lock
+*.apk
+*.aar
+
+# IDE
+.idea
+*.iml
+.vscode
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config
+local.properties
