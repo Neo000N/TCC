@@ -49,7 +49,7 @@ jobs:
       - name: Build tcc-bridge for Android (aarch64)
         working-directory: tcc-bridge
         run: |
-          cargo ndk --target aarch64-linux-android --build --release
+          cargo ndk -t aarch64-linux-android build --release
 
       - name: Verify binary
         run: |
