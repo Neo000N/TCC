@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 # PTY management
-portable-pty = { version = "0.8", features = ["serde"] }
+portable-pty = { version = "0.9", features = ["serde"] }
 
 # Async runtime
 tokio = { version = "1.38", features = ["full", "net", "signal", "fs", "io-std", "process", "time", "macros"] }
