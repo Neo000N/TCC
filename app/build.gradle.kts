@@ -43,8 +43,8 @@ android {
 
     // Include jniLibs source set for native libraries
     sourceSets {
-        main {
-            jniLibs.srcDirs = listOf("src/main/jniLibs")
+        getByName("main") {
+            jniLibs.setSrcDirs(listOf("src/main/jniLibs"))
         }
     }
 }
@@ -54,4 +54,5 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 }
