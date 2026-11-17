@@ -1,0 +1,82 @@
+name: Build Bridge for Android
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tcc-bridge/**'
+      - '.github/workflows/bridge-build.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  build-bridge:
+    name: Build tcc-bridge for aarch64-linux-android
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+
+      - name: Setup Android NDK
+        uses: android-actions/setup-android@v3
+        with:
+          ndk-version: r27c
+          api-level: 35
+
+      - name: Cache Cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            tcc-bridge/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('tcc-bridge/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Build tcc-bridge for Android (aarch64)
+        working-directory: tcc-bridge
+        run: |
+          cargo build --release --target aarch64-linux-android
+
+      - name: Verify binary
+        run: |
+          file tcc-bridge/target/aarch64-linux-android/release/tcc-bridge
+          ls -la tcc-bridge/target/aarch64-linux-android/release/tcc-bridge
+
+      - name: Create jniLibs directory
+        run: |
+          mkdir -p android-app/app/src/main/jniLibs/arm64-v8a
+
+      - name: Copy bridge binary to jniLibs
+        run: |
+          cp tcc-bridge/target/aarch64-linux-android/release/tcc-bridge android-app/app/src/main/jniLibs/arm64-v8a/tcc-bridge
+          chmod +x android-app/app/src/main/jniLibs/arm64-v8a/tcc-bridge
+
+      - name: Verify jniLibs binary
+        run: |
+          file android-app/app/src/main/jniLibs/arm64-v8a/tcc-bridge
+          ls -la android-app/app/src/main/jniLibs/arm64-v8a/
+
+      - name: Upload bridge binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tcc-bridge-android-arm64
+          path: android-app/app/src/main/jniLibs/arm64-v8a/tcc-bridge
+          retention-days: 7
+
+      - name: Upload jniLibs directory artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jniLibs-arm64-v8a
+          path: android-app/app/src/main/jniLibs/
+          retention-days: 7
