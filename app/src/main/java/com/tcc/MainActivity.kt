@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                 0,
                 1f
             )
-            fillViewport = true
+            isFillViewport = true
         }
 
         outputTextView = TextView(this).apply {
@@ -387,7 +387,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
                 // Binary PTY output
-                val text = bytes.decodeString(StandardCharsets.UTF_8)
+                val text = bytes.utf8()
                 runOnUiThread { appendOutput(text) }
             }
 
